@@ -1,0 +1,13 @@
+name: Keep Casa Noah Awake
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # ogni 10 minuti
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping casanoah.it
+        run: curl -s https://casanoah.it > /dev/null
