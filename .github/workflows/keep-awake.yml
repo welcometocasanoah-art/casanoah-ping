@@ -8,6 +8,17 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
     steps:
-      - name: Ping casanoah.it
+      - name: Ping casanoah.it (frontend)
         run: curl -s https://casanoah.it > /dev/null
+
+      - name: Ping Supabase REST
+        run: |
+          curl -s "${SUPABASE_URL}/rest/v1/activities?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            -H "Accept: application/json" > /dev/null
